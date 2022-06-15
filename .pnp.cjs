@@ -64,6 +64,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-node", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:10.8.1"],\
             ["tsconfig-paths", "npm:3.14.1"],\
             ["typeorm", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:0.3.6"],\
+            ["typeorm-naming-strategies", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:4.1.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.3#~builtin<compat/typescript>::version=4.7.3&hash=7ad353"]\
           ],\
           "linkType": "SOFT"\
@@ -5411,6 +5412,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-node", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:10.8.1"],\
             ["tsconfig-paths", "npm:3.14.1"],\
             ["typeorm", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:0.3.6"],\
+            ["typeorm-naming-strategies", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:4.1.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.3#~builtin<compat/typescript>::version=4.7.3&hash=7ad353"]\
           ],\
           "linkType": "SOFT"\
@@ -9429,6 +9431,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "sqlite3",\
             "ts-node",\
             "typeorm-aurora-data-api-driver"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["typeorm-naming-strategies", [\
+        ["npm:4.1.0", {\
+          "packageLocation": "./.yarn/cache/typeorm-naming-strategies-npm-4.1.0-9e060d6928-9654f38691.zip/node_modules/typeorm-naming-strategies/",\
+          "packageDependencies": [\
+            ["typeorm-naming-strategies", "npm:4.1.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:4.1.0", {\
+          "packageLocation": "./.yarn/__virtual__/typeorm-naming-strategies-virtual-4a5c74d6cc/0/cache/typeorm-naming-strategies-npm-4.1.0-9e060d6928-9654f38691.zip/node_modules/typeorm-naming-strategies/",\
+          "packageDependencies": [\
+            ["typeorm-naming-strategies", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:4.1.0"],\
+            ["@types/typeorm", null],\
+            ["typeorm", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:0.3.6"]\
+          ],\
+          "packagePeers": [\
+            "@types/typeorm",\
+            "typeorm"\
           ],\
           "linkType": "HARD"\
         }]\
