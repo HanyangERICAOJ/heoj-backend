@@ -48,6 +48,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/eslint-plugin", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:5.28.0"],\
             ["@typescript-eslint/parser", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:5.28.0"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.9"],\
+            ["class-transformer", "npm:0.5.1"],\
+            ["class-validator", "npm:0.13.2"],\
             ["eslint", "npm:8.17.0"],\
             ["eslint-config-prettier", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:8.5.0"],\
             ["eslint-plugin-prettier", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:4.0.0"],\
@@ -1351,8 +1353,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/rxjs", null],\
             ["axios", "npm:0.27.2"],\
             ["cache-manager", null],\
-            ["class-transformer", null],\
-            ["class-validator", null],\
+            ["class-transformer", "npm:0.5.1"],\
+            ["class-validator", "npm:0.13.2"],\
             ["iterare", "npm:1.2.1"],\
             ["reflect-metadata", "npm:0.1.13"],\
             ["rxjs", "npm:7.5.5"],\
@@ -3592,6 +3594,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["class-transformer", [\
+        ["npm:0.5.1", {\
+          "packageLocation": "./.yarn/cache/class-transformer-npm-0.5.1-96b5161e6c-f191c8b4cc.zip/node_modules/class-transformer/",\
+          "packageDependencies": [\
+            ["class-transformer", "npm:0.5.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["class-validator", [\
+        ["npm:0.13.2", {\
+          "packageLocation": "./.yarn/cache/class-validator-npm-0.13.2-915206252c-0deb4c29fa.zip/node_modules/class-validator/",\
+          "packageDependencies": [\
+            ["class-validator", "npm:0.13.2"],\
+            ["libphonenumber-js", "npm:1.10.6"],\
+            ["validator", "npm:13.7.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["clean-stack", [\
         ["npm:2.2.0", {\
           "packageLocation": "./.yarn/cache/clean-stack-npm-2.2.0-a8ce435a5c-2ac8cd2b2f.zip/node_modules/clean-stack/",\
@@ -5396,6 +5418,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/eslint-plugin", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:5.28.0"],\
             ["@typescript-eslint/parser", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:5.28.0"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.9"],\
+            ["class-transformer", "npm:0.5.1"],\
+            ["class-validator", "npm:0.13.2"],\
             ["eslint", "npm:8.17.0"],\
             ["eslint-config-prettier", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:8.5.0"],\
             ["eslint-plugin-prettier", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:4.0.0"],\
@@ -6694,6 +6718,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["levn", "npm:0.4.1"],\
             ["prelude-ls", "npm:1.2.1"],\
             ["type-check", "npm:0.4.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["libphonenumber-js", [\
+        ["npm:1.10.6", {\
+          "packageLocation": "./.yarn/cache/libphonenumber-js-npm-1.10.6-124f3fed33-8754240b52.zip/node_modules/libphonenumber-js/",\
+          "packageDependencies": [\
+            ["libphonenumber-js", "npm:1.10.6"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9581,6 +9614,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/istanbul-lib-coverage", "npm:2.0.4"],\
             ["convert-source-map", "npm:1.8.0"],\
             ["source-map", "npm:0.7.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["validator", [\
+        ["npm:13.7.0", {\
+          "packageLocation": "./.yarn/cache/validator-npm-13.7.0-624277e841-2b83283de1.zip/node_modules/validator/",\
+          "packageDependencies": [\
+            ["validator", "npm:13.7.0"]\
           ],\
           "linkType": "HARD"\
         }]\
