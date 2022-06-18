@@ -3,7 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
+import { ProblemsModule } from './problems/problems.module';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { SubmissionsModule } from './submissions/submissions.module';
+import { ContestsModule } from './contests/contests.module';
+import { LanguagesModule } from './languages/languages.module';
 
 @Module({
   imports: [
@@ -22,6 +27,11 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
       logging: ['query'],
       namingStrategy: new SnakeNamingStrategy(),
     }),
+    UsersModule,
+    ProblemsModule,
+    SubmissionsModule,
+    ContestsModule,
+    LanguagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
