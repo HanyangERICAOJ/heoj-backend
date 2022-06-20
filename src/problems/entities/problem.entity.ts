@@ -20,28 +20,28 @@ export class Problem {
   @Column()
   number: number;
 
-  @Column()
+  @Column({ default: '' })
   title: string;
 
-  @Column()
+  @Column({ default: 1000 })
   timeLimit: number;
 
-  @Column()
+  @Column({ default: 512 })
   memoryLimit: number;
 
-  @Column()
+  @Column({ default: '' })
   description: string;
 
-  @Column()
+  @Column({ default: '' })
   inputDescription: string;
 
-  @Column()
+  @Column({ default: '' })
   outputDescription: string;
 
-  @Column()
+  @Column({ default: '' })
   limitDescription: string;
 
-  @Column({ type: 'jsonb' })
+  @Column({ type: 'jsonb', default: [] })
   examples: Example[];
 
   @OneToMany(() => Submission, (submission) => submission.problem)
