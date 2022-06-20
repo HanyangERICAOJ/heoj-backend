@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { NumberExistConstraint } from './constraints/number-exist.constraint';
+import { NumberNotExistConstraint } from './constraints/number-not-exist.constraint';
 import { Problem } from './entities/problem.entity';
 import { Testcase } from './entities/testcase.entity';
 import { Validator } from './entities/validator.entity';
@@ -9,6 +11,6 @@ import { ProblemsService } from './problems.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Problem, Validator, Testcase])],
   controllers: [ProblemsController],
-  providers: [ProblemsService],
+  providers: [ProblemsService, NumberExistConstraint, NumberNotExistConstraint],
 })
 export class ProblemsModule {}

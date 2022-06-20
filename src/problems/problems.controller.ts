@@ -5,12 +5,15 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
 import { CreateProblemDTO } from './dtos/create-problem.dto';
 import { ProblemListDTO } from './dtos/problem-list.dto';
 import { ProblemParamDTO, ProblemQueryDTO } from './dtos/problem.dto';
+import { UpdateProblemExampleDTO } from './dtos/update-problem-examples.dto';
 import { ProblemsService } from './problems.service';
 
 @Controller('problems')
@@ -34,5 +37,21 @@ export class ProblemsController {
     @Param() problemParamDTO: ProblemParamDTO,
   ) {
     return this.problmesService.findOne(problemQueryDTO, problemParamDTO);
+  }
+
+  @Get('/:number/examples')
+  problemExamples(@Param('number', new ParseIntPipe()) number: number) {
+    return this.problmesService.problemExample(number);
+  }
+
+  @Patch('/:number/examples')
+  problemExamplesUpdate(
+    @Param('number', new ParseIntPipe()) number: number,
+    @Body() updateProblemExampleDTO: UpdateProblemExampleDTO,
+  ) {
+    return this.problmesService.problemExampleUpdate(
+      number,
+      updateProblemExampleDTO,
+    );
   }
 }
