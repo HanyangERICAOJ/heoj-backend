@@ -7,6 +7,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { SubmissionsModule } from './submissions/submissions.module';
 import { ContestsModule } from './contests/contests.module';
 import { LanguagesModule } from './languages/languages.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { LanguagesModule } from './languages/languages.module';
     SubmissionsModule,
     ContestsModule,
     LanguagesModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
