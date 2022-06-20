@@ -63,9 +63,17 @@ export class ProblemsService {
       .getOne();
   }
 
+  async delete(number: number) {
+    const problem = await this.problemRepository.findOneBy({ number: number });
+    if (!problem) return new NotFoundException();
+
+    await this.problemRepository.remove(problem);
+  }
+
   async problemExample(number: number) {
     const problem = await this.problemRepository.findOneBy({ number: number });
     if (!problem) return new NotFoundException();
+
     return problem.examples;
   }
 
@@ -75,6 +83,7 @@ export class ProblemsService {
   ) {
     const problem = await this.problemRepository.findOneBy({ number: number });
     if (!problem) return new NotFoundException();
+
     problem.examples = updateProblemExampleDTO.examples;
     await this.problemRepository.save(problem);
   }
