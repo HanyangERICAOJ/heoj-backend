@@ -46,6 +46,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nestjs/testing", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:8.4.7"],\
             ["@nestjs/typeorm", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:8.1.3"],\
             ["@types/bcrypt", "npm:5.0.0"],\
+            ["@types/cookie-parser", "npm:1.4.3"],\
             ["@types/express", "npm:4.17.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/multer", "npm:1.4.7"],\
@@ -60,6 +61,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bcrypt", "npm:5.0.1"],\
             ["class-transformer", "npm:0.5.1"],\
             ["class-validator", "npm:0.13.2"],\
+            ["cookie-parser", "npm:1.4.6"],\
             ["eslint", "npm:8.17.0"],\
             ["eslint-config-prettier", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:8.5.0"],\
             ["eslint-plugin-prettier", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:4.0.0"],\
@@ -3104,6 +3106,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/cookie-parser", [\
+        ["npm:1.4.3", {\
+          "packageLocation": "./.yarn/cache/@types-cookie-parser-npm-1.4.3-4bda65954a-f390f3af1b.zip/node_modules/@types/cookie-parser/",\
+          "packageDependencies": [\
+            ["@types/cookie-parser", "npm:1.4.3"],\
+            ["@types/express", "npm:4.17.13"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/cookiejar", [\
         ["npm:2.1.2", {\
           "packageLocation": "./.yarn/cache/@types-cookiejar-npm-2.1.2-2588120a7c-f6e1903454.zip/node_modules/@types/cookiejar/",\
@@ -5301,10 +5313,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["cookie", [\
+        ["npm:0.4.1", {\
+          "packageLocation": "./.yarn/cache/cookie-npm-0.4.1-cc5e2ebb42-bd7c47f5d9.zip/node_modules/cookie/",\
+          "packageDependencies": [\
+            ["cookie", "npm:0.4.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:0.5.0", {\
           "packageLocation": "./.yarn/cache/cookie-npm-0.5.0-e2d58a161a-1f4bd2ca57.zip/node_modules/cookie/",\
           "packageDependencies": [\
             ["cookie", "npm:0.5.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["cookie-parser", [\
+        ["npm:1.4.6", {\
+          "packageLocation": "./.yarn/cache/cookie-parser-npm-1.4.6-a68f84d02a-1e5a63aa82.zip/node_modules/cookie-parser/",\
+          "packageDependencies": [\
+            ["cookie-parser", "npm:1.4.6"],\
+            ["cookie", "npm:0.4.1"],\
+            ["cookie-signature", "npm:1.0.6"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -6867,6 +6897,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nestjs/testing", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:8.4.7"],\
             ["@nestjs/typeorm", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:8.1.3"],\
             ["@types/bcrypt", "npm:5.0.0"],\
+            ["@types/cookie-parser", "npm:1.4.3"],\
             ["@types/express", "npm:4.17.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/multer", "npm:1.4.7"],\
@@ -6881,6 +6912,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bcrypt", "npm:5.0.1"],\
             ["class-transformer", "npm:0.5.1"],\
             ["class-validator", "npm:0.13.2"],\
+            ["cookie-parser", "npm:1.4.6"],\
             ["eslint", "npm:8.17.0"],\
             ["eslint-config-prettier", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:8.5.0"],\
             ["eslint-plugin-prettier", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:4.0.0"],\
