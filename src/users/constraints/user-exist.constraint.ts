@@ -3,8 +3,6 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { DeepPartial } from 'typeorm';
-import { User } from '../entities/user.entity';
 import { UsersService } from '../users.service';
 
 @ValidatorConstraint({ async: true })
@@ -12,9 +10,8 @@ import { UsersService } from '../users.service';
 export class UserExistConstraint implements ValidatorConstraintInterface {
   constructor(private readonly usersService: UsersService) {}
 
-  validate(user: DeepPartial<User>): boolean | Promise<boolean> {
-    if (!user || !user.id) return false;
-    return this.usersService.findOneById(user.id).then((user) => {
+  validate(id: number): boolean | Promise<boolean> {
+    return this.usersService.findOneById(id).then((user) => {
       return user !== null;
     });
   }

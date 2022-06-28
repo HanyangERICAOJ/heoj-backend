@@ -1,19 +1,28 @@
-import { Transform, Type } from 'class-transformer';
-import { IsNotEmpty, Validate } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsNotEmpty,
+  IsNumber,
+  Validate,
+  ValidateNested,
+} from 'class-validator';
 import { UserExistConstraint } from 'src/users/constraints/user-exist.constraint';
-import { User } from 'src/users/entities/user.entity';
-import { DeepPartial } from 'typeorm';
 import { NumberNotExistConstraint } from '../constraints/number-not-exist.constraint';
+
+class RelationUser {
+  @Validate(UserExistConstraint)
+  @IsNumber({ allowNaN: false, allowInfinity: false })
+  @Type(() => Number)
+  id: number;
+}
 
 export class CreateProblemDTO {
   @IsNotEmpty()
-  @Type(() => Number)
   @Validate(NumberNotExistConstraint)
+  @Type(() => Number)
   number: number;
 
-  @Validate(UserExistConstraint)
-  @Transform(({ value }) => {
-    return { id: value };
-  })
-  author: DeepPartial<User>;
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => RelationUser)
+  author: RelationUser;
 }
