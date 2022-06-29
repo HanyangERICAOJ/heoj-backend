@@ -10,6 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Testcase } from 'src/problems/entities/testcase.entity';
 
 @Entity()
 export class User {
@@ -33,6 +34,9 @@ export class User {
 
   @OneToMany(() => Submission, (submission) => submission.author)
   submissions: Submission[];
+
+  @OneToMany(() => Testcase, (testcase) => testcase.author)
+  testcases: Testcase[];
 
   // Hash Password, use find* and save
 
