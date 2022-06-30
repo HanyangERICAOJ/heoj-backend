@@ -17,19 +17,19 @@ export class Submission {
   @Column()
   code: string;
 
-  @Column()
+  @Column({ nullable: true })
   time: number;
 
-  @Column()
+  @Column({ nullable: true })
   memory: number;
 
   @CreateDateColumn()
   submitTime: Date;
 
-  @Column()
+  @Column({ default: false })
   isAccepted: boolean;
 
-  @Column()
+  @Column({ default: false })
   isTest: boolean;
 
   @ManyToOne(() => Problem, (problem) => problem.submissions)
