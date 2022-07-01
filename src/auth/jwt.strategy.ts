@@ -26,8 +26,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (!user) {
       throw new UnauthorizedException();
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, beforePassword, oneLineIntroduction, ...result } = user;
+    const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      password,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      beforePassword,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      oneLineIntroduction,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      isAdmin,
+      ...result
+    } = user;
     return result;
   }
 }

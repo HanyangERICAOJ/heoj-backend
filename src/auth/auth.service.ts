@@ -20,9 +20,17 @@ export class AuthService {
     if (user) {
       const compare = await bcrypt.compare(password, user.password);
       if (compare) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { password, beforePassword, oneLineIntroduction, ...result } =
-          user;
+        const {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          password,
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          beforePassword,
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          oneLineIntroduction,
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          isAdmin,
+          ...result
+        } = user;
         return result;
       } else return null;
     }

@@ -29,6 +29,9 @@ export class User {
   @Column({ default: '' })
   oneLineIntroduction: string;
 
+  @Column({ default: false })
+  isAdmin: boolean;
+
   @OneToMany(() => Problem, (problem) => problem.author)
   problems: Problem[];
 
@@ -40,7 +43,7 @@ export class User {
 
   // Hash Password, use find* and save
 
-  private beforePassword: string;
+  beforePassword: string;
 
   @AfterLoad()
   private loadBeforePassword() {
