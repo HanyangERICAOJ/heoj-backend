@@ -104,15 +104,17 @@ export class ProblemsService {
     if (!problem) return new NotFoundException();
 
     const testcase = await this.testcaseRepository.create();
-    testcase.inputUrl = input.path;
+    testcase.inputUrl = input.location;
     testcase.inputEtag = input.etag;
     testcase.inputSize = input.size;
 
-    testcase.outputUrl = output.path;
+    testcase.outputUrl = output.location;
     testcase.outputEtag = output.etag;
     testcase.outputSize = output.size;
 
     testcase.problem = problem;
+
+    await this.testcaseRepository.save(testcase);
   }
 
   async problemTestcases(number: number) {
