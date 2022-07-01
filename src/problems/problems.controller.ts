@@ -23,10 +23,9 @@ import * as AWS from 'aws-sdk';
 import * as multerS3 from 'multer-s3';
 import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
-import { isNumber, ValidationError } from 'class-validator';
-import { S3Client } from '@aws-sdk/client-s3';
+import { isNumberString, ValidationError } from 'class-validator';
 
-const s3 = new S3Client({
+const s3 = new AWS.S3({
   region: 'ap-northeast-2',
 });
 
@@ -38,12 +37,12 @@ export class ProblemsController {
     private readonly problemsService: ProblemsService,
     private readonly configService: ConfigService,
   ) {
-    s3.config.credentials = async () => {
-      return {
+    s3.config.update({
+      credentials: {
         accessKeyId: configService.get<string>('AWS_ACCESS_KEY_ID'),
         secretAccessKey: configService.get<string>('AWS_SECRET_KEY'),
-      };
-    };
+      },
+    });
   }
 
   @Post()
@@ -99,7 +98,7 @@ export class ProblemsController {
           bucket: 'heoj-testcase',
           key: function (request: Request, file, cb) {
             if (
-              isNumber(request.params.number, {
+              isNumberString(request.params.number, {
                 allowInfinity: false,
                 allowNaN: false,
               })
