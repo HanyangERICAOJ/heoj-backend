@@ -3,15 +3,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateProblemDTO } from './dtos/create-problem.dto';
 import { ProblemListDTO } from './dtos/problem-list.dto';
-import { ProblemParamDTO, ProblemQueryDTO } from './dtos/problem.dto';
+import { ProblemQueryDTO } from './dtos/problem.dto';
 import { UpdateProblemExampleDTO } from './dtos/update-problem-examples.dto';
 import { Problem } from './entities/problem.entity';
+import { Testcase } from './entities/testcase.entity';
 
 @Injectable()
 export class ProblemsService {
   constructor(
     @InjectRepository(Problem)
     private readonly problemRepository: Repository<Problem>,
+    @InjectRepository(Testcase)
+    private readonly testcaseRepository: Repository<Testcase>,
   ) {}
 
   async create(createProblemDTO: CreateProblemDTO) {
@@ -32,7 +35,7 @@ export class ProblemsService {
     });
   }
 
-  findOne(problemQueryDTO: ProblemQueryDTO, problemParamDTO: ProblemParamDTO) {
+  async findOne(number: number, problemQueryDTO: ProblemQueryDTO) {
     const baseField = [
       'id',
       'number',
@@ -55,12 +58,16 @@ export class ProblemsService {
         .map((value) => `problem.${value}`),
     );
 
-    return this.problemRepository
+    const problem = await this.problemRepository
       .createQueryBuilder('problem')
-      .where({ number: problemParamDTO.number })
+      .where({ number: number })
       .leftJoin('problem.author', 'author')
       .select(select)
       .getOne();
+
+    if (!problem) return new NotFoundException();
+
+    return problem;
   }
 
   async delete(number: number) {
@@ -70,7 +77,7 @@ export class ProblemsService {
     await this.problemRepository.remove(problem);
   }
 
-  async problemExample(number: number) {
+  async problemExamples(number: number) {
     const problem = await this.problemRepository.findOneBy({ number: number });
     if (!problem) return new NotFoundException();
 
@@ -86,5 +93,29 @@ export class ProblemsService {
 
     problem.examples = updateProblemExampleDTO.examples;
     await this.problemRepository.save(problem);
+  }
+
+  async createProblemTestcases(
+    number: number,
+    input: Express.MulterS3.File,
+    output: Express.MulterS3.File,
+  ) {
+    const problem = await this.problemRepository.findOneBy({ number: number });
+    if (!problem) return new NotFoundException();
+
+    const testcase = await this.testcaseRepository.create();
+    testcase.inputUrl = input.path;
+    testcase.inputEtag = input.etag;
+    testcase.inputSize = input.size;
+
+    testcase.outputUrl = output.path;
+    testcase.outputEtag = output.etag;
+    testcase.outputSize = output.size;
+
+    testcase.problem = problem;
+  }
+
+  async problemTestcases(number: number) {
+    return;
   }
 }

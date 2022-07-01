@@ -10,16 +10,41 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CreateProblemDTO } from './dtos/create-problem.dto';
 import { ProblemListDTO } from './dtos/problem-list.dto';
-import { ProblemParamDTO, ProblemQueryDTO } from './dtos/problem.dto';
+import { ProblemQueryDTO } from './dtos/problem.dto';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { UpdateProblemExampleDTO } from './dtos/update-problem-examples.dto';
 import { ProblemsService } from './problems.service';
+import * as AWS from 'aws-sdk';
+import * as multerS3 from 'multer-s3';
+import { Request } from 'express';
+import { ConfigService } from '@nestjs/config';
+import { isNumber, ValidationError } from 'class-validator';
+import { S3Client } from '@aws-sdk/client-s3';
+
+const s3 = new S3Client({
+  region: 'ap-northeast-2',
+});
 
 @Controller('problems')
 export class ProblemsController {
-  constructor(private readonly problemsService: ProblemsService) {}
+  private s3: AWS.S3;
+  private multerS3: any;
+  constructor(
+    private readonly problemsService: ProblemsService,
+    private readonly configService: ConfigService,
+  ) {
+    s3.config.credentials = async () => {
+      return {
+        accessKeyId: configService.get<string>('AWS_ACCESS_KEY_ID'),
+        secretAccessKey: configService.get<string>('AWS_SECRET_KEY'),
+      };
+    };
+  }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -34,10 +59,10 @@ export class ProblemsController {
 
   @Get('/:number')
   problem(
+    @Param('number', new ParseIntPipe()) number: number,
     @Query() problemQueryDTO: ProblemQueryDTO,
-    @Param() problemParamDTO: ProblemParamDTO,
   ) {
-    return this.problemsService.findOne(problemQueryDTO, problemParamDTO);
+    return this.problemsService.findOne(number, problemQueryDTO);
   }
 
   @Delete('/:number')
@@ -47,7 +72,7 @@ export class ProblemsController {
 
   @Get('/:number/examples')
   problemExamples(@Param('number', new ParseIntPipe()) number: number) {
-    return this.problemsService.problemExample(number);
+    return this.problemsService.problemExamples(number);
   }
 
   @Patch('/:number/examples')
@@ -59,5 +84,56 @@ export class ProblemsController {
       number,
       updateProblemExampleDTO,
     );
+  }
+
+  @Post('/:number/testcases')
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'input', maxCount: 1 },
+        { name: 'output', maxCount: 1 },
+      ],
+      {
+        storage: multerS3({
+          s3: s3,
+          bucket: 'heoj-testcase',
+          key: function (request: Request, file, cb) {
+            if (
+              isNumber(request.params.number, {
+                allowInfinity: false,
+                allowNaN: false,
+              })
+            ) {
+              cb(
+                null,
+                `${request.params.number}/${Date.now() + file.originalname}`,
+              );
+            } else {
+              // if ValidationError not upload testcase
+              cb(new ValidationError(), null);
+            }
+          },
+        }),
+      },
+    ),
+  )
+  createProblemTestcases(
+    @Param('number', new ParseIntPipe()) number: number,
+    @UploadedFiles()
+    files: {
+      input?: Express.MulterS3.File[];
+      output?: Express.MulterS3.File[];
+    },
+  ) {
+    return this.problemsService.createProblemTestcases(
+      number,
+      files.input[0],
+      files.output[0],
+    );
+  }
+
+  @Get('/:number/testcases')
+  problemTestcases(@Param('number', new ParseIntPipe()) number: number) {
+    return this.problemsService.problemTestcases(number);
   }
 }
