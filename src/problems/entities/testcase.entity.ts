@@ -13,7 +13,7 @@ export class Testcase {
   @Column()
   outputUrl: string;
 
-  @Column()
+  @Column({ default: false })
   isValid: boolean;
 
   @Column()
