@@ -65,21 +65,21 @@ export class ProblemsService {
       .select(select)
       .getOne();
 
-    if (!problem) return new NotFoundException();
+    if (!problem) throw new NotFoundException();
 
     return problem;
   }
 
   async delete(number: number) {
     const problem = await this.problemRepository.findOneBy({ number: number });
-    if (!problem) return new NotFoundException();
+    if (!problem) throw new NotFoundException();
 
     await this.problemRepository.remove(problem);
   }
 
   async problemExamples(number: number) {
     const problem = await this.problemRepository.findOneBy({ number: number });
-    if (!problem) return new NotFoundException();
+    if (!problem) throw new NotFoundException();
 
     return problem.examples;
   }
@@ -89,19 +89,19 @@ export class ProblemsService {
     updateProblemExampleDTO: UpdateProblemExampleDTO,
   ) {
     const problem = await this.problemRepository.findOneBy({ number: number });
-    if (!problem) return new NotFoundException();
+    if (!problem) throw new NotFoundException();
 
     problem.examples = updateProblemExampleDTO.examples;
     await this.problemRepository.save(problem);
   }
 
-  async createProblemTestcases(
+  async createProblemTestcase(
     number: number,
     input: Express.MulterS3.File,
     output: Express.MulterS3.File,
   ) {
     const problem = await this.problemRepository.findOneBy({ number: number });
-    if (!problem) return new NotFoundException();
+    if (!problem) throw new NotFoundException();
 
     const testcase = await this.testcaseRepository.create();
     testcase.inputUrl = input.location;
@@ -119,5 +119,19 @@ export class ProblemsService {
 
   async problemTestcases(number: number) {
     return;
+  }
+
+  async testcase(id: number) {
+    const testcase = await this.testcaseRepository.findOneBy({ id: id });
+    if (!testcase) throw new NotFoundException();
+
+    return testcase;
+  }
+
+  async deleteTestcase(id: number) {
+    const testcase = await this.testcaseRepository.findOneBy({ id: id });
+    if (!testcase) throw new NotFoundException();
+
+    await this.testcaseRepository.remove(testcase);
   }
 }

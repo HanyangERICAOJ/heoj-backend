@@ -116,7 +116,7 @@ export class ProblemsController {
       },
     ),
   )
-  createProblemTestcases(
+  createProblemTestcase(
     @Param('number', new ParseIntPipe()) number: number,
     @UploadedFiles()
     files: {
@@ -124,7 +124,7 @@ export class ProblemsController {
       output?: Express.MulterS3.File[];
     },
   ) {
-    return this.problemsService.createProblemTestcases(
+    return this.problemsService.createProblemTestcase(
       number,
       files.input[0],
       files.output[0],
@@ -134,5 +134,15 @@ export class ProblemsController {
   @Get('/:number/testcases')
   problemTestcases(@Param('number', new ParseIntPipe()) number: number) {
     return this.problemsService.problemTestcases(number);
+  }
+
+  @Get('/testcases/:id')
+  testcase(@Param('id', new ParseIntPipe()) id: number) {
+    return this.problemsService.testcase(id);
+  }
+
+  @Delete('/testcases/:id')
+  deleteTestcase(@Param('id', new ParseIntPipe()) id: number) {
+    return this.problemsService.deleteTestcase(id);
   }
 }
