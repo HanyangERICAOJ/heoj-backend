@@ -31,8 +31,6 @@ const s3 = new AWS.S3({
 
 @Controller('problems')
 export class ProblemsController {
-  private s3: AWS.S3;
-  private multerS3: any;
   constructor(
     private readonly problemsService: ProblemsService,
     private readonly configService: ConfigService,
