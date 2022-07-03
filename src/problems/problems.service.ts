@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateProblemDTO } from './dtos/create-problem.dto';
 import { ProblemListDTO } from './dtos/problem-list.dto';
@@ -85,11 +86,14 @@ export class ProblemsService {
   }
 
   async problemExampleUpdate(
+    user: Partial<User>,
     number: number,
     updateProblemExampleDTO: UpdateProblemExampleDTO,
   ) {
     const problem = await this.problemRepository.findOneBy({ number: number });
     if (!problem) throw new NotFoundException();
+
+    console.log(problem.author);
 
     problem.examples = updateProblemExampleDTO.examples;
     await this.problemRepository.save(problem);
@@ -118,7 +122,27 @@ export class ProblemsService {
   }
 
   async problemTestcases(number: number) {
-    return;
+    const problem = await this.problemRepository.findOneBy({ number: number });
+    if (!problem) throw new NotFoundException();
+
+    // const testcases = await this.testcaseRepository.find({
+    //   select: ['id', 'author'],
+    //   where: {
+    //     problem: { number: number },
+    //   },
+    //   relations: ['problem', 'author'],
+    // });
+
+    const testcases = await this.testcaseRepository
+      .createQueryBuilder('testcase')
+      .select()
+      .leftJoin('testcase.problem', 'problem')
+      .leftJoin('testcase.author', 'author')
+      .addSelect('author.username')
+      .where('problem.number = :number', { number: number })
+      .getMany();
+
+    return testcases;
   }
 
   async testcase(id: number) {

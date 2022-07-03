@@ -10,7 +10,9 @@ import {
   Patch,
   Post,
   Query,
+  Req,
   UploadedFiles,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateProblemDTO } from './dtos/create-problem.dto';
@@ -24,6 +26,8 @@ import * as multerS3 from 'multer-s3';
 import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { isNumberString, ValidationError } from 'class-validator';
+import { AdminGuard } from 'src/auth/admin.guard';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 const s3 = new AWS.S3({
   region: 'ap-northeast-2',
@@ -44,6 +48,7 @@ export class ProblemsController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createProblemDTO: CreateProblemDTO) {
     await this.problemsService.create(createProblemDTO);
@@ -63,6 +68,7 @@ export class ProblemsController {
   }
 
   @Delete('/:number')
+  @UseGuards(JwtAuthGuard, AdminGuard)
   delete(@Param('number', new ParseIntPipe()) number: number) {
     return this.problemsService.delete(number);
   }
@@ -73,17 +79,21 @@ export class ProblemsController {
   }
 
   @Patch('/:number/examples')
+  @UseGuards(JwtAuthGuard)
   problemExamplesUpdate(
+    @Req() request: Request,
     @Param('number', new ParseIntPipe()) number: number,
     @Body() updateProblemExampleDTO: UpdateProblemExampleDTO,
   ) {
     return this.problemsService.problemExampleUpdate(
+      request.user,
       number,
       updateProblemExampleDTO,
     );
   }
 
   @Post('/:number/testcases')
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(
     FileFieldsInterceptor(
       [
@@ -140,6 +150,7 @@ export class ProblemsController {
   }
 
   @Delete('/testcases/:id')
+  @UseGuards(JwtAuthGuard)
   deleteTestcase(@Param('id', new ParseIntPipe()) id: number) {
     return this.problemsService.deleteTestcase(id);
   }
