@@ -33,8 +33,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       beforePassword,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       oneLineIntroduction,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      isAdmin,
       ...result
     } = user;
     return result;

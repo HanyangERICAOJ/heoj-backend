@@ -3,5 +3,6 @@ declare namespace Express {
     id: number;
     username: string;
     studentId: string;
+    isAdmin: boolean;
   }
 }

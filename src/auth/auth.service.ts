@@ -27,8 +27,6 @@ export class AuthService {
           beforePassword,
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           oneLineIntroduction,
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          isAdmin,
           ...result
         } = user;
         return result;
