@@ -6,9 +6,11 @@ export class Validator {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ default: '' })
   code: string;
 
-  @OneToOne(() => Problem, (problem) => problem.validator)
+  @OneToOne(() => Problem, (problem) => problem.validator, {
+    onDelete: 'CASCADE',
+  })
   problem: Problem;
 }

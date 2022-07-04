@@ -28,9 +28,11 @@ export class Testcase {
   @Column()
   outputEtag: string;
 
-  @ManyToOne(() => Problem, (problem) => problem.testcases)
+  @ManyToOne(() => Problem, (problem) => problem.testcases, {
+    onDelete: 'CASCADE',
+  })
   problem: Problem;
 
-  @ManyToOne(() => User, (user) => user.testcases)
-  author: User;
+  @ManyToOne(() => User, (user) => user.testcases, { onDelete: 'SET NULL' })
+  author?: User;
 }

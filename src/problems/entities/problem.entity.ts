@@ -3,6 +3,7 @@ import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   OneToOne,
@@ -23,7 +24,7 @@ export class Problem {
   @Column({ default: '' })
   title: string;
 
-  @Column({ default: 1000 })
+  @Column({ default: 1 })
   timeLimit: number;
 
   @Column({ default: 512 })
@@ -47,12 +48,17 @@ export class Problem {
   @OneToMany(() => Submission, (submission) => submission.problem)
   submissions: Submission[];
 
-  @ManyToOne(() => User, (user) => user.problems)
-  author: User;
+  @ManyToOne(() => User, (user) => user.problems, { onDelete: 'SET NULL' })
+  author?: User;
 
-  @OneToOne(() => Validator, (validator) => validator.problem)
+  @OneToOne(() => Validator, (validator) => validator.problem, {
+    cascade: true,
+  })
+  @JoinColumn()
   validator: Validator;
 
-  @OneToMany(() => Testcase, (testcase) => testcase.problem)
+  @OneToMany(() => Testcase, (testcase) => testcase.problem, {
+    cascade: true,
+  })
   testcases: Testcase[];
 }
