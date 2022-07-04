@@ -3,8 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
-  HttpStatus,
   Param,
   ParseIntPipe,
   Patch,
@@ -28,7 +26,6 @@ import { ConfigService } from '@nestjs/config';
 import { isNumberString, ValidationError } from 'class-validator';
 import { AdminGuard } from 'src/auth/admin.guard';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { request } from 'http';
 import { UpdateProblemValidatorDTO } from './dtos/update-problem-validator.dto';
 
 const s3 = new AWS.S3({
