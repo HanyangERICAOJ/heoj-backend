@@ -29,6 +29,7 @@ import { isNumberString, ValidationError } from 'class-validator';
 import { AdminGuard } from 'src/auth/admin.guard';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { request } from 'http';
+import { UpdateProblemValidatorDTO } from './dtos/update-problem-validator.dto';
 
 const s3 = new AWS.S3({
   region: 'ap-northeast-2',
@@ -50,9 +51,8 @@ export class ProblemsController {
 
   @Post()
   @UseGuards(JwtAuthGuard, AdminGuard)
-  @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createProblemDTO: CreateProblemDTO) {
-    await this.problemsService.create(createProblemDTO);
+  create(@Body() createProblemDTO: CreateProblemDTO) {
+    this.problemsService.create(createProblemDTO);
   }
 
   @Get()
@@ -81,7 +81,7 @@ export class ProblemsController {
 
   @Patch('/:number/examples')
   @UseGuards(JwtAuthGuard)
-  problemExamplesUpdate(
+  updateProblemExamples(
     @Req() request: Request,
     @Param('number', new ParseIntPipe()) number: number,
     @Body() updateProblemExampleDTO: UpdateProblemExampleDTO,
@@ -164,5 +164,16 @@ export class ProblemsController {
   @Get('/:number/validator')
   problemValidator(@Param('number', new ParseIntPipe()) number: number) {
     return this.problemsService.problemValidator(number);
+  }
+
+  @Patch('/:number/validator')
+  updateProblemValidator(
+    @Param('number', new ParseIntPipe()) number: number,
+    @Body() updateProblemValidatorDTO: UpdateProblemValidatorDTO,
+  ) {
+    return this.problemsService.updateProblemValidator(
+      number,
+      updateProblemValidatorDTO,
+    );
   }
 }

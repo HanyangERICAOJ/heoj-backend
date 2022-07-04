@@ -9,6 +9,7 @@ import { CreateProblemDTO } from './dtos/create-problem.dto';
 import { ProblemListDTO } from './dtos/problem-list.dto';
 import { ProblemQueryDTO } from './dtos/problem.dto';
 import { UpdateProblemExampleDTO } from './dtos/update-problem-examples.dto';
+import { UpdateProblemValidatorDTO } from './dtos/update-problem-validator.dto';
 import { Problem } from './entities/problem.entity';
 import { Testcase } from './entities/testcase.entity';
 import { Validator } from './entities/validator.entity';
@@ -216,6 +217,24 @@ export class ProblemsService {
 
     if (!problem) throw new NotFoundException();
     return problem.validator;
+  }
+
+  async updateProblemValidator(
+    number: number,
+    updateProblemValidatorDTO: UpdateProblemValidatorDTO,
+  ) {
+    const problem = await this.problemRepository
+      .createQueryBuilder('problem')
+      .leftJoin('problem.validator', 'validator')
+      .select('validator')
+      .addSelect(['problem.id', 'problem.number'])
+      .where('problem.number = :number', { number: number })
+      .getOne();
+
+    if (!problem) throw new NotFoundException();
+
+    problem.validator.code = updateProblemValidatorDTO.code;
+    await this.problemRepository.save(problem);
   }
 
   isAuthorOrAdmin(authorId: number, userId: number, isAdmin: boolean): boolean {
