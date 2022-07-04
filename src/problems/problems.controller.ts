@@ -28,9 +28,7 @@ import { AdminGuard } from 'src/auth/admin.guard';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UpdateProblemValidatorDTO } from './dtos/update-problem-validator.dto';
 
-const s3 = new AWS.S3({
-  region: 'ap-northeast-2',
-});
+const s3 = new AWS.S3();
 
 @Controller('problems')
 export class ProblemsController {
@@ -39,6 +37,7 @@ export class ProblemsController {
     private readonly configService: ConfigService,
   ) {
     s3.config.update({
+      region: configService.get<string>('AWS_REGION'),
       credentials: {
         accessKeyId: configService.get<string>('AWS_ACCESS_KEY_ID'),
         secretAccessKey: configService.get<string>('AWS_SECRET_KEY'),
