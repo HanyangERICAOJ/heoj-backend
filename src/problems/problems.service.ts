@@ -1,6 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateProblemDTO } from './dtos/create-problem.dto';
 import { ProblemListDTO } from './dtos/problem-list.dto';
@@ -8,6 +11,7 @@ import { ProblemQueryDTO } from './dtos/problem.dto';
 import { UpdateProblemExampleDTO } from './dtos/update-problem-examples.dto';
 import { Problem } from './entities/problem.entity';
 import { Testcase } from './entities/testcase.entity';
+import { Validator } from './entities/validator.entity';
 
 @Injectable()
 export class ProblemsService {
@@ -16,10 +20,14 @@ export class ProblemsService {
     private readonly problemRepository: Repository<Problem>,
     @InjectRepository(Testcase)
     private readonly testcaseRepository: Repository<Testcase>,
+    @InjectRepository(Validator)
+    private readonly validatorRepository: Repository<Validator>,
   ) {}
 
   async create(createProblemDTO: CreateProblemDTO) {
     const problem = this.problemRepository.create(createProblemDTO);
+    problem.validator = this.validatorRepository.create();
+
     await this.problemRepository.save(problem);
   }
 
@@ -86,26 +94,51 @@ export class ProblemsService {
   }
 
   async problemExampleUpdate(
-    user: Partial<User>,
+    user: Express.User,
     number: number,
     updateProblemExampleDTO: UpdateProblemExampleDTO,
   ) {
-    const problem = await this.problemRepository.findOneBy({ number: number });
+    // const problem = await this.problemRepository.findOneBy({ number: number });
+    // if (!problem) throw new NotFoundException();
+
+    const problem = await this.problemRepository
+      .createQueryBuilder('problem')
+      .select(['problem.id', 'problem.number', 'problem.examples'])
+      .leftJoin('problem.author', 'author')
+      .addSelect('author.id')
+      .where('problem.number = :number', { number: number })
+      .getOne();
+
     if (!problem) throw new NotFoundException();
 
-    console.log(problem.author);
+    if (!this.isAuthorOrAdmin(problem.author?.id, user.id, user.isAdmin)) {
+      throw new ForbiddenException();
+    }
 
     problem.examples = updateProblemExampleDTO.examples;
     await this.problemRepository.save(problem);
   }
 
   async createProblemTestcase(
+    user: Express.User,
     number: number,
     input: Express.MulterS3.File,
     output: Express.MulterS3.File,
   ) {
-    const problem = await this.problemRepository.findOneBy({ number: number });
+    // const problem = await this.problemRepository.findOneBy({ number: number });
+    // if (!problem) throw new NotFoundException();
+    const problem = await this.problemRepository
+      .createQueryBuilder('problem')
+      .leftJoin('problem.author', 'author')
+      .select('author.id')
+      .where('problem.number = :number', { number: number })
+      .getOne();
+
     if (!problem) throw new NotFoundException();
+
+    if (problem.author.id != user.id && !user.isAdmin) {
+      throw new ForbiddenException();
+    }
 
     const testcase = await this.testcaseRepository.create();
     testcase.inputUrl = input.location;
@@ -152,10 +185,42 @@ export class ProblemsService {
     return testcase;
   }
 
-  async deleteTestcase(id: number) {
-    const testcase = await this.testcaseRepository.findOneBy({ id: id });
+  async deleteTestcase(user: Express.User, id: number) {
+    // const testcase = await this.testcaseRepository.findOneBy({ id: id });
+    // if (!testcase) throw new NotFoundException();
+
+    const testcase = await this.testcaseRepository
+      .createQueryBuilder('testcase')
+      .leftJoin('testcase.author', 'author')
+      .select('author.id')
+      .where('testcase.id = :id', { id: id })
+      .getOne();
+
     if (!testcase) throw new NotFoundException();
 
+    if (!this.isAuthorOrAdmin(testcase.author?.id, user.id, user.isAdmin)) {
+      throw new ForbiddenException();
+    }
+
     await this.testcaseRepository.remove(testcase);
+  }
+
+  async problemValidator(number: number) {
+    const problem = await this.problemRepository
+      .createQueryBuilder('problem')
+      .leftJoin('problem.validator', 'validator')
+      .select('validator')
+      .addSelect('problem.number')
+      .where('problem.number = :number', { number: number })
+      .getOne();
+
+    if (!problem) throw new NotFoundException();
+    return problem.validator;
+  }
+
+  isAuthorOrAdmin(authorId: number, userId: number, isAdmin: boolean): boolean {
+    if (isAdmin) return true;
+    else if (authorId === undefined) return false;
+    else return authorId === userId;
   }
 }

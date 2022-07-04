@@ -28,6 +28,7 @@ import { ConfigService } from '@nestjs/config';
 import { isNumberString, ValidationError } from 'class-validator';
 import { AdminGuard } from 'src/auth/admin.guard';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { request } from 'http';
 
 const s3 = new AWS.S3({
   region: 'ap-northeast-2',
@@ -125,6 +126,7 @@ export class ProblemsController {
     ),
   )
   createProblemTestcase(
+    @Req() request: Request,
     @Param('number', new ParseIntPipe()) number: number,
     @UploadedFiles()
     files: {
@@ -133,6 +135,7 @@ export class ProblemsController {
     },
   ) {
     return this.problemsService.createProblemTestcase(
+      request.user,
       number,
       files.input[0],
       files.output[0],
@@ -151,7 +154,15 @@ export class ProblemsController {
 
   @Delete('/testcases/:id')
   @UseGuards(JwtAuthGuard)
-  deleteTestcase(@Param('id', new ParseIntPipe()) id: number) {
-    return this.problemsService.deleteTestcase(id);
+  deleteTestcase(
+    @Req() request: Request,
+    @Param('id', new ParseIntPipe()) id: number,
+  ) {
+    return this.problemsService.deleteTestcase(request.user, id);
+  }
+
+  @Get('/:number/validator')
+  problemValidator(@Param('number', new ParseIntPipe()) number: number) {
+    return this.problemsService.problemValidator(number);
   }
 }
