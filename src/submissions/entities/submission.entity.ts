@@ -17,10 +17,10 @@ export class Submission {
   @Column()
   code: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: null })
   time: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: null })
   memory: number;
 
   @CreateDateColumn()
