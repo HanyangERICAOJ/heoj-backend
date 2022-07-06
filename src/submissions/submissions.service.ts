@@ -1,3 +1,4 @@
+import { SqsService } from '@nestjs-packages/sqs';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Problem } from 'src/problems/entities/problem.entity';
@@ -12,6 +13,7 @@ export class SubmissionsService {
     private readonly submissionRepository: Repository<Submission>,
     @InjectRepository(Problem)
     private readonly problemRepository: Repository<Problem>,
+    private readonly sqsService: SqsService,
   ) {}
 
   async createProblemSubmission(
@@ -25,5 +27,10 @@ export class SubmissionsService {
     await this.submissionRepository.save(submission);
 
     // judge queue
+    await this.sqsService.send('heoj-judge-queue.fifo', {
+      id: `${submission.id}`,
+      body: { id: submission.id },
+      groupId: 'judge',
+    });
   }
 }
