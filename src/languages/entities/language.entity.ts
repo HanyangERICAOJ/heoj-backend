@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Submission } from 'src/submissions/entities/submission.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Language {
@@ -19,4 +20,7 @@ export class Language {
 
   @Column()
   example: string;
+
+  @OneToMany(() => Submission, (submission) => submission.language)
+  submissions: Submission[];
 }
