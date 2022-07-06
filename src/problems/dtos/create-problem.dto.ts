@@ -16,8 +16,9 @@ class RelationUser {
 }
 
 export class CreateProblemDTO {
-  @IsNotEmpty()
   @Validate(NumberNotExistConstraint)
+  @IsNumber({ allowNaN: false, allowInfinity: false })
+  @IsNotEmpty()
   @Type(() => Number)
   number: number;
 
