@@ -1,6 +1,8 @@
+import { SqsService } from '@nestjs-packages/sqs';
 import {
   ForbiddenException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,9 +15,13 @@ import { UpdateProblemValidatorDTO } from './dtos/update-problem-validator.dto';
 import { Problem } from './entities/problem.entity';
 import { Testcase } from './entities/testcase.entity';
 import { Validator } from './entities/validator.entity';
+import * as AWS from 'aws-sdk';
+import { ConfigService } from '@nestjs/config';
+import { AWSError } from 'aws-sdk';
 
 @Injectable()
 export class ProblemsService {
+  s3 = new AWS.S3();
   constructor(
     @InjectRepository(Problem)
     private readonly problemRepository: Repository<Problem>,
@@ -23,7 +29,17 @@ export class ProblemsService {
     private readonly testcaseRepository: Repository<Testcase>,
     @InjectRepository(Validator)
     private readonly validatorRepository: Repository<Validator>,
-  ) {}
+    private readonly sqsService: SqsService,
+    private readonly configService: ConfigService,
+  ) {
+    this.s3.config.update({
+      region: configService.get<string>('AWS_REGION'),
+      credentials: {
+        accessKeyId: configService.get<string>('AWS_ACCESS_KEY_ID'),
+        secretAccessKey: configService.get<string>('AWS_SECRET_KEY'),
+      },
+    });
+  }
 
   async create(createProblemDTO: CreateProblemDTO) {
     const problem = this.problemRepository.create(createProblemDTO);
@@ -193,7 +209,12 @@ export class ProblemsService {
     const testcase = await this.testcaseRepository
       .createQueryBuilder('testcase')
       .leftJoin('testcase.author', 'author')
-      .select('author.id')
+      .select([
+        'testcase.id',
+        'author.id',
+        'testcase.inputUrl',
+        'testcase.outputUrl',
+      ])
       .where('testcase.id = :id', { id: id })
       .getOne();
 
@@ -203,7 +224,26 @@ export class ProblemsService {
       throw new ForbiddenException();
     }
 
+    await this.s3
+      .deleteObjects({
+        Bucket: 'heoj-testcase',
+        Delete: {
+          Objects: [
+            { Key: this.urlToS3Key(testcase.inputUrl) },
+            { Key: this.urlToS3Key(testcase.outputUrl) },
+          ],
+        },
+      })
+      .promise()
+      .catch((error: AWSError) => {
+        throw new InternalServerErrorException(error.message);
+      });
+
     await this.testcaseRepository.remove(testcase);
+  }
+
+  urlToS3Key(url: string) {
+    return url.split(this.s3.endpoint.hostname)[1].slice(1);
   }
 
   async problemValidator(number: number) {
