@@ -1,4 +1,5 @@
 import { Contest } from 'src/contests/entities/contest.entity';
+import { Language } from 'src/languages/entities/language.entity';
 import { Problem } from 'src/problems/entities/problem.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
@@ -31,6 +32,9 @@ export class Submission {
 
   @Column({ default: false })
   isTest: boolean;
+
+  @ManyToOne(() => Language, (language) => language.submissions)
+  language: Language;
 
   @ManyToOne(() => Problem, (problem) => problem.submissions)
   problem: Problem;

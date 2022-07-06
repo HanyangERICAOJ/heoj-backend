@@ -27,6 +27,8 @@ import { isNumberString, ValidationError } from 'class-validator';
 import { AdminGuard } from 'src/auth/admin.guard';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UpdateProblemValidatorDTO } from './dtos/update-problem-validator.dto';
+import { CreateSubmissionDTO } from 'src/submissions/dtos/create-submission.dto';
+import { SubmissionsService } from 'src/submissions/submissions.service';
 
 const s3 = new AWS.S3();
 
@@ -35,6 +37,7 @@ export class ProblemsController {
   constructor(
     private readonly problemsService: ProblemsService,
     private readonly configService: ConfigService,
+    private readonly submissionsService: SubmissionsService,
   ) {
     s3.config.update({
       region: configService.get<string>('AWS_REGION'),
@@ -170,6 +173,17 @@ export class ProblemsController {
     return this.problemsService.updateProblemValidator(
       number,
       updateProblemValidatorDTO,
+    );
+  }
+
+  @Post('/:number/submissions')
+  createSubmission(
+    @Param('number', new ParseIntPipe()) number: number,
+    @Body() createSubmissionDTO: CreateSubmissionDTO,
+  ) {
+    return this.submissionsService.createProblemSubmission(
+      number,
+      createSubmissionDTO,
     );
   }
 }
