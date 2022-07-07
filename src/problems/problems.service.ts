@@ -18,6 +18,7 @@ import { Validator } from './entities/validator.entity';
 import * as AWS from 'aws-sdk';
 import { ConfigService } from '@nestjs/config';
 import { AWSError } from 'aws-sdk';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class ProblemsService {
@@ -128,7 +129,7 @@ export class ProblemsService {
 
     if (!problem) throw new NotFoundException();
 
-    if (!this.isAuthorOrAdmin(problem.author?.id, user.id, user.isAdmin)) {
+    if (!this.isAuthorOrAdmin(problem.author, user.id, user.isAdmin)) {
       throw new ForbiddenException();
     }
 
@@ -147,13 +148,15 @@ export class ProblemsService {
     const problem = await this.problemRepository
       .createQueryBuilder('problem')
       .leftJoin('problem.author', 'author')
-      .select('author.id')
+      .select(['problem.id', 'author.id'])
       .where('problem.number = :number', { number: number })
       .getOne();
 
+    console.log(problem);
+
     if (!problem) throw new NotFoundException();
 
-    if (problem.author.id != user.id && !user.isAdmin) {
+    if (!this.isAuthorOrAdmin(problem.author, user.id, user.isAdmin)) {
       throw new ForbiddenException();
     }
 
@@ -220,7 +223,7 @@ export class ProblemsService {
 
     if (!testcase) throw new NotFoundException();
 
-    if (!this.isAuthorOrAdmin(testcase.author?.id, user.id, user.isAdmin)) {
+    if (!this.isAuthorOrAdmin(testcase.author, user.id, user.isAdmin)) {
       throw new ForbiddenException();
     }
 
@@ -277,9 +280,10 @@ export class ProblemsService {
     await this.problemRepository.save(problem);
   }
 
-  isAuthorOrAdmin(authorId: number, userId: number, isAdmin: boolean): boolean {
+  isAuthorOrAdmin(author: User, userId: number, isAdmin: boolean): boolean {
     if (isAdmin) return true;
-    else if (authorId === undefined) return false;
-    else return authorId === userId;
+    else if (author === null || author === undefined) return false;
+    else if (author.id === undefined) return false;
+    else return author.id === userId;
   }
 }
