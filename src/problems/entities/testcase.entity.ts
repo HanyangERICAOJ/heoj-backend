@@ -1,6 +1,14 @@
 import { User } from 'src/users/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Problem } from './problem.entity';
+import { TestcaseResult } from './testcase-result.entity';
 
 @Entity()
 export class Testcase {
@@ -35,4 +43,10 @@ export class Testcase {
 
   @ManyToOne(() => User, (user) => user.testcases, { onDelete: 'SET NULL' })
   author?: User;
+
+  @CreateDateColumn({ type: 'timestamp without time zone' })
+  createdAt: Date;
+
+  @OneToMany(() => TestcaseResult, (testcaseResult) => testcaseResult.testcase)
+  results: TestcaseResult[];
 }

@@ -21,6 +21,9 @@ export class Language {
   @Column()
   example: string;
 
+  @Column()
+  fileName: string;
+
   @OneToMany(() => Submission, (submission) => submission.language)
   submissions: Submission[];
 }
