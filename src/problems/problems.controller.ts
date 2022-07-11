@@ -101,6 +101,9 @@ export class ProblemsController {
         { name: 'output', maxCount: 1 },
       ],
       {
+        limits: {
+          fileSize: 32 * 1024,
+        },
         storage: multerS3({
           s3: s3,
           bucket: 'heoj-testcase',
@@ -109,7 +112,12 @@ export class ProblemsController {
               isNumberString(request.params.number, {
                 allowInfinity: false,
                 allowNaN: false,
-              })
+              }) &&
+              file.originalname
+                .split('.')
+                .slice(0, -1)
+                .join('.')
+                .match('[A-Za-z0-9-_]+') !== null
             ) {
               cb(
                 null,
