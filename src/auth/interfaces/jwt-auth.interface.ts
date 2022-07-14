@@ -5,3 +5,8 @@ export interface JWTAuthCookie {
   value: string;
   cookieOptions: CookieOptions;
 }
+
+export interface JWTAuthPayload {
+  id: number;
+  username: string;
+}
