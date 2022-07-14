@@ -68,6 +68,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-config-prettier", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:8.5.0"],\
             ["eslint-plugin-prettier", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:4.0.0"],\
             ["jest", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:27.5.1"],\
+            ["joi", "npm:17.6.0"],\
             ["lodash", "npm:4.17.21"],\
             ["multer", "npm:1.4.5-lts.1"],\
             ["multer-s3", "npm:2.10.0"],\
@@ -2130,6 +2131,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@hapi/hoek", [\
+        ["npm:9.3.0", {\
+          "packageLocation": "./.yarn/cache/@hapi-hoek-npm-9.3.0-447eb8d274-4771c7a776.zip/node_modules/@hapi/hoek/",\
+          "packageDependencies": [\
+            ["@hapi/hoek", "npm:9.3.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@hapi/topo", [\
+        ["npm:5.1.0", {\
+          "packageLocation": "./.yarn/cache/@hapi-topo-npm-5.1.0-5e0b776809-604dfd5dde.zip/node_modules/@hapi/topo/",\
+          "packageDependencies": [\
+            ["@hapi/topo", "npm:5.1.0"],\
+            ["@hapi/hoek", "npm:9.3.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@humanwhocodes/config-array", [\
         ["npm:0.9.5", {\
           "packageLocation": "./.yarn/cache/@humanwhocodes-config-array-npm-0.9.5-030a025eae-8ba6281bc0.zip/node_modules/@humanwhocodes/config-array/",\
@@ -2955,6 +2975,34 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["chalk", "npm:4.1.2"],\
             ["consola", "npm:2.15.3"],\
             ["node-fetch", "virtual:7ef8e735579bc90514a76a01d20c7e4bad0199264ae1b9c6741cb9c534782e52ee1e790691603ec132756174d8766261ada111a64842daefd25955aad0f9f79c#npm:2.6.7"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@sideway/address", [\
+        ["npm:4.1.4", {\
+          "packageLocation": "./.yarn/cache/@sideway-address-npm-4.1.4-32f94bc9f5-b9fca2a93a.zip/node_modules/@sideway/address/",\
+          "packageDependencies": [\
+            ["@sideway/address", "npm:4.1.4"],\
+            ["@hapi/hoek", "npm:9.3.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@sideway/formula", [\
+        ["npm:3.0.0", {\
+          "packageLocation": "./.yarn/cache/@sideway-formula-npm-3.0.0-8688cb96b6-8ae26a0ed6.zip/node_modules/@sideway/formula/",\
+          "packageDependencies": [\
+            ["@sideway/formula", "npm:3.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@sideway/pinpoint", [\
+        ["npm:2.0.0", {\
+          "packageLocation": "./.yarn/cache/@sideway-pinpoint-npm-2.0.0-66d94e687e-0f4491e589.zip/node_modules/@sideway/pinpoint/",\
+          "packageDependencies": [\
+            ["@sideway/pinpoint", "npm:2.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7004,6 +7052,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-config-prettier", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:8.5.0"],\
             ["eslint-plugin-prettier", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:4.0.0"],\
             ["jest", "virtual:fc4b923e159bc8e5018585b72be084d8bd2c60b96fa697ad6f17a6eb45b7f8ddd8da595ac2a80cae5c6fb995294e6cdf412486e464df0675a171e2ed7fd9f63b#npm:27.5.1"],\
+            ["joi", "npm:17.6.0"],\
             ["lodash", "npm:4.17.21"],\
             ["multer", "npm:1.4.5-lts.1"],\
             ["multer-s3", "npm:2.10.0"],\
@@ -8114,6 +8163,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/jmespath-npm-0.16.0-d47535c65a-2d602493a1.zip/node_modules/jmespath/",\
           "packageDependencies": [\
             ["jmespath", "npm:0.16.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["joi", [\
+        ["npm:17.6.0", {\
+          "packageLocation": "./.yarn/cache/joi-npm-17.6.0-987ef6515f-eaf62f6c02.zip/node_modules/joi/",\
+          "packageDependencies": [\
+            ["joi", "npm:17.6.0"],\
+            ["@hapi/hoek", "npm:9.3.0"],\
+            ["@hapi/topo", "npm:5.1.0"],\
+            ["@sideway/address", "npm:4.1.4"],\
+            ["@sideway/formula", "npm:3.0.0"],\
+            ["@sideway/pinpoint", "npm:2.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\

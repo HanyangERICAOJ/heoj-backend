@@ -14,11 +14,25 @@ import {
   SqsConfig,
   SqsQueueType,
 } from '@nestjs-packages/sqs';
+import * as Joi from 'joi';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      validationSchema: Joi.object({
+        DB_HOST: Joi.string().hostname(),
+        DB_PORT: Joi.number().port(),
+        DB_USERNAME: Joi.string(),
+        DB_PASSWORD: Joi.string(),
+        JWT_ACESS_TOKEN_SECRET: Joi.string(),
+        JWT_EXPIRATION_TIME: Joi.number(),
+        AWS_ACCOUNT_NUMBER: Joi.string(),
+        AWS_ACCESS_KEY_ID: Joi.string(),
+        AWS_SECRTE_KEY: Joi.string(),
+        AWS_REGION: Joi.string(),
+        AWS_SQS_ENDPOINT: Joi.string().uri(),
+      }),
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
