@@ -3,8 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
-import { JWTAuthCookie } from './interfaces/jwt-auth-cookie.interface';
+import { JWTAuthCookie } from './interfaces/jwt-auth.interface';
 import CreateUserDTO from 'src/users/dtos/create-user.dto';
+import { PublicUser } from '../users/interfaces/public-user.interface';
 
 @Injectable()
 export class AuthService {
@@ -14,29 +15,23 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async validateUser(username: string, password: string): Promise<any> {
+  async validateUser(
+    username: string,
+    password: string,
+  ): Promise<Express.User | null> {
     const user = await this.usersService.findOneByUsername(username);
 
     if (user) {
       const compare = await bcrypt.compare(password, user.password);
       if (compare) {
-        const {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          password,
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          beforePassword,
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          oneLineIntroduction,
-          ...result
-        } = user;
-        return result;
+        return this.usersService.removePrivateField(user);
       } else return null;
     }
     return null;
   }
 
-  login(user: any): JWTAuthCookie {
-    const payload = { username: user.username, id: user.userId };
+  login(user: Express.User): JWTAuthCookie {
+    const payload = { username: user.username, id: user.id };
     const token = this.jwtService.sign(payload);
     return {
       name: 'Authentication',

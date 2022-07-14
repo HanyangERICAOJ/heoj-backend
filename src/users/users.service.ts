@@ -27,4 +27,12 @@ export class UsersService {
   findOneByStudentId(studentId: string): Promise<User | null> {
     return this.userRepository.findOneBy({ studentId: studentId });
   }
+
+  removePrivateField(user: User): Express.User {
+    return {
+      id: user.id,
+      username: user.username,
+      isAdmin: user.isAdmin,
+    };
+  }
 }
