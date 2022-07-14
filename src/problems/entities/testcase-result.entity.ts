@@ -14,7 +14,7 @@ export class TestcaseResult {
   @PrimaryColumn()
   submissionId: number;
 
-  @ManyToOne(() => Submission, (submission) => submission.results)
+  @ManyToOne(() => Submission, (submission) => submission.testcaseResults)
   @JoinColumn()
   submission: Submission;
 

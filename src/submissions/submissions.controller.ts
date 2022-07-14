@@ -9,7 +9,5 @@ export class SubmissionsController {
     private readonly submissionsService: SubmissionsService,
     private readonly configService: ConfigService,
     private readonly sqsService: SqsService,
-  ) {
-    
-  }
+  ) {}
 }

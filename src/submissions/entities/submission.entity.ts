@@ -1,12 +1,14 @@
 import { Contest } from 'src/contests/entities/contest.entity';
 import { Language } from 'src/languages/entities/language.entity';
 import { Problem } from 'src/problems/entities/problem.entity';
+import { TestcaseResult } from 'src/problems/entities/testcase-result.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -44,4 +46,10 @@ export class Submission {
 
   @ManyToOne(() => Contest, (contest) => contest.submissions)
   contest: Contest;
+
+  @OneToMany(
+    () => TestcaseResult,
+    (testcaseResult) => testcaseResult.submission,
+  )
+  testcaseResults: TestcaseResult[];
 }
