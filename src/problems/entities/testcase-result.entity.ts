@@ -20,4 +20,10 @@ export class TestcaseResult {
 
   @Column()
   result: number;
+
+  @Column({ default: null })
+  time: number;
+
+  @Column({ default: null })
+  memory: number;
 }

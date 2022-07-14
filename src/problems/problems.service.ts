@@ -246,7 +246,8 @@ export class ProblemsService {
   }
 
   urlToS3Key(url: string) {
-    return url.split(this.s3.endpoint.hostname)[1].slice(1);
+    const splited = url.split('/');
+    return `${splited.at(-2)}/${splited.at(-1)}`;
   }
 
   async problemValidator(number: number) {
